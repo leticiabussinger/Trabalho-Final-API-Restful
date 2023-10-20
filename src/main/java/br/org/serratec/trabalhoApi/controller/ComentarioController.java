@@ -22,6 +22,7 @@ import br.org.serratec.trabalhoApi.Dtos.ComentarioInserirDto;
 import br.org.serratec.trabalhoApi.model.Comentario;
 import br.org.serratec.trabalhoApi.service.ComentarioService;
 
+
 @RestController
 @RequestMapping("/comentarios")
 public class ComentarioController {
