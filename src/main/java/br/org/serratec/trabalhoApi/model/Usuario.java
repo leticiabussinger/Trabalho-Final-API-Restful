@@ -98,4 +98,13 @@ public class Usuario {
 		this.senha = senha;
 	}
 
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
+	
+
 }

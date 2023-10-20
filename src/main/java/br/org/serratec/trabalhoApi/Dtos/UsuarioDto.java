@@ -1,7 +1,10 @@
 package br.org.serratec.trabalhoApi.Dtos;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import br.org.serratec.trabalhoApi.model.Post;
 import br.org.serratec.trabalhoApi.model.Usuario;
 
 public class UsuarioDto {
@@ -15,18 +18,27 @@ public class UsuarioDto {
 	private String email;
 
 	private LocalDate dataNascimento;
+	
+//	private List<PostDto> posts;
 
 	public UsuarioDto() {
 
 	}
 
 	public UsuarioDto(Usuario usuario) {
-		this.id = usuario.getId();
-		this.nome = usuario.getNome();
-		this.sobrenome = usuario.getSobrenome();
-		this.email = usuario.getEmail();
-		this.dataNascimento = usuario.getDataNascimento();
-
+	    if (usuario != null) {
+	        this.id = usuario.getId();
+	        this.nome = usuario.getNome();
+	        this.sobrenome = usuario.getSobrenome();
+	        this.email = usuario.getEmail();
+	        this.dataNascimento = usuario.getDataNascimento();
+//	        this.posts = new ArrayList<>();
+//	        if (usuario.getPosts() != null) {
+//	            for (Post post : usuario.getPosts()) {
+//	                this.posts.add(new PostDto(post));
+//	            }
+//	        }
+	    }
 	}
 
 	public Long getId() {
@@ -68,5 +80,14 @@ public class UsuarioDto {
 	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
+
+//	public List<PostDto> getPosts() {
+//		return posts;
+//	}
+//
+//	public void setPosts(List<PostDto> posts) {
+//		this.posts = posts;
+//	}
+
 
 }

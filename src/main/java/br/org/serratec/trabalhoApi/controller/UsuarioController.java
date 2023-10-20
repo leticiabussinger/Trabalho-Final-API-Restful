@@ -44,6 +44,7 @@ public class UsuarioController {
 		return ResponseEntity.ok(usuarioDto);
 	}
 	
+
 	@PostMapping
 	public ResponseEntity<UsuarioDto> inserir(@Valid @RequestBody UsuarioInserirDto usuarioInserirDTO) {
 		UsuarioDto usuarioDto = usuarioService.inserir(usuarioInserirDTO);
@@ -53,7 +54,7 @@ public class UsuarioController {
 				.path("/{id}")
 				.buildAndExpand(usuarioDto.getId())
 				.toUri();
-
+		
 		return ResponseEntity.created(uri).body(usuarioDto);
 	}
 	

@@ -7,9 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import br.org.serratec.trabalhoApi.Dtos.UsuarioDto;
 import br.org.serratec.trabalhoApi.Dtos.UsuarioInserirDto;
@@ -41,17 +39,18 @@ public class UsuarioService {
 		if (usuarioOpt.isEmpty()) {
 			return null;
 		}
+		
 		UsuarioDto usuarioDto = new UsuarioDto(usuarioOpt.get());
+		
 		return usuarioDto;
 	}
 
-	@Transactional
 	public UsuarioDto inserir(UsuarioInserirDto usuarioInserirDto) throws EmailException, SenhaException {
 		Usuario usuario = validateInserir(usuarioInserirDto);
 		usuario = usuarioRepository.save(usuario);
 
 		UsuarioDto usuarioDto = new UsuarioDto(usuario);
-
+		
 		return usuarioDto;
 	}
 
