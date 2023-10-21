@@ -1,7 +1,6 @@
 package br.org.serratec.trabalhoApi.service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -68,12 +67,11 @@ public class ComentarioService {
 
 		if(post.isPresent()) {
 			Comentario comentarioInserido = new Comentario();
-			
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-			LocalDate data = LocalDate.parse(comentarioInserirDto.getDataCriacao(), formatter);
+		
+			LocalDateTime dataAtual = LocalDateTime.now();
 			
 			comentarioInserido.setTexto(comentarioInserirDto.getTexto());
-			comentarioInserido.setDataCriacao(data);
+			comentarioInserido.setDataCriacao(dataAtual);
 			comentarioInserido.setPost(comentarioInserirDto.getPost());
 			
 			comentarioInserido = comentarioRepository.save(comentarioInserido);

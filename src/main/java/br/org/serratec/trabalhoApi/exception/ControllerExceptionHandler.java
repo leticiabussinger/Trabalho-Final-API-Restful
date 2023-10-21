@@ -37,4 +37,9 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<?> handleEmailException(Exception ex) {
 		return ResponseEntity.unprocessableEntity().body(ex.getMessage());
 	}
+	
+	@ExceptionHandler(RecursoNaoEncontradoException.class)
+    protected ResponseEntity<?> handleResourceNotFoundException(RecursoNaoEncontradoException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
 }

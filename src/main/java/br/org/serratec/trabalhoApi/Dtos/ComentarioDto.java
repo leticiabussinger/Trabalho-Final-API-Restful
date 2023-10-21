@@ -1,6 +1,6 @@
 package br.org.serratec.trabalhoApi.Dtos;
 
-import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import br.org.serratec.trabalhoApi.model.Comentario;
 
@@ -10,7 +10,7 @@ public class ComentarioDto {
 
 	private String texto;
 
-	private LocalDate dataCriacao;
+	private String dataCriacao;
 
 	private Long post_id;
 	
@@ -22,7 +22,9 @@ public class ComentarioDto {
 	public ComentarioDto(Comentario comentario) {
 		this.id = comentario.getId();
 		this.texto = comentario.getTexto();
-		this.dataCriacao = comentario.getDataCriacao();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");  
+		String dataFormatada = comentario.getDataCriacao().format(formatter);  
+		this.dataCriacao = dataFormatada;
 		this.post_id = comentario.getPost().getId();
 	}
 
@@ -43,11 +45,11 @@ public class ComentarioDto {
 		this.texto = texto;
 	}
 
-	public LocalDate getDataCriacao() {
+	public String getDataCriacao() {
 		return dataCriacao;
 	}
 
-	public void setDataCriacao(LocalDate dataCriacao) {
+	public void setDataCriacao(String dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
 

@@ -19,9 +19,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.org.serratec.trabalhoApi.Dtos.ComentarioDto;
 import br.org.serratec.trabalhoApi.Dtos.ComentarioInserirDto;
+import br.org.serratec.trabalhoApi.exception.RecursoNaoEncontradoException;
 import br.org.serratec.trabalhoApi.model.Comentario;
 import br.org.serratec.trabalhoApi.service.ComentarioService;
-
 
 @RestController
 @RequestMapping("/comentarios")
@@ -32,6 +32,9 @@ public class ComentarioController {
 
 	@GetMapping
 	public ResponseEntity<List<ComentarioDto>> listar() {
+		if(comentarioService.findAll().isEmpty()) {
+			throw new RecursoNaoEncontradoException("Não existem comentarios cadastrados no sistema");
+		}
 		return ResponseEntity.ok(comentarioService.findAll());
 	}
 
@@ -39,7 +42,7 @@ public class ComentarioController {
 	public ResponseEntity<ComentarioDto> buscar(@PathVariable Long id) {
 		ComentarioDto comentario = comentarioService.findById(id);
 		if (comentario == null) {
-			return ResponseEntity.notFound().build();
+			throw new RecursoNaoEncontradoException("Não existe comentario com o id " + id );
 		}
 		return ResponseEntity.ok(comentario);
 	}
@@ -48,7 +51,7 @@ public class ComentarioController {
 	public ResponseEntity<List<ComentarioDto>> buscarComentariosPost(@PathVariable Long id) {
 		List<ComentarioDto> comentarios = comentarioService.buscarComentarioPost(id);
 		if (comentarios == null || comentarios.isEmpty()) {
-			return ResponseEntity.notFound().build();
+			throw new RecursoNaoEncontradoException("Não existem comentarios cadastrados para o post com o id " + id);
 		}
 		return ResponseEntity.ok(comentarios);
 	}
@@ -66,7 +69,7 @@ public class ComentarioController {
 			
 			return ResponseEntity.created(uri).body(comentarioInserido);		
 		}
-		return ResponseEntity.notFound().build();
+		throw new RecursoNaoEncontradoException("Não é possivel inserir um comentario, pois o post de id " + comentario.getPost().getId() + " não existe!");
 
 	}
 
@@ -78,7 +81,7 @@ public class ComentarioController {
 		if (comentarioAtualizado != null) {
 			return ResponseEntity.ok(comentarioAtualizado);
 		}
-		return ResponseEntity.notFound().build();
+		throw new RecursoNaoEncontradoException("Não existe comentario com o id " + id );
 	}
 
 	@DeleteMapping("/{id}")
@@ -88,7 +91,7 @@ public class ComentarioController {
 		if (validate) {
 			return ResponseEntity.noContent().build();
 		}
-		return ResponseEntity.notFound().build();
+		throw new RecursoNaoEncontradoException("Não existe comentario com o id " + id );
 	}
 
 }

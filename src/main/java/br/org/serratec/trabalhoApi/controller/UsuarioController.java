@@ -19,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.org.serratec.trabalhoApi.Dtos.UsuarioDto;
 import br.org.serratec.trabalhoApi.Dtos.UsuarioInserirDto;
+import br.org.serratec.trabalhoApi.exception.RecursoNaoEncontradoException;
 import br.org.serratec.trabalhoApi.service.UsuarioService;
 
 @RestController
@@ -32,6 +33,9 @@ public class UsuarioController {
 	public ResponseEntity<List<UsuarioDto>> listar() {
 //		UserDetails detail = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //		System.out.println(detail.getUsername());
+		if(usuarioService.findAll().isEmpty()) {
+			throw new RecursoNaoEncontradoException("Não existem usuarios cadastrados no sistema");
+		}
 		return ResponseEntity.ok(usuarioService.findAll());
 	}
 	
@@ -39,7 +43,7 @@ public class UsuarioController {
 	public ResponseEntity<UsuarioDto> buscar(@PathVariable Long id) {
 		UsuarioDto usuarioDto = usuarioService.findById(id);
 		if (usuarioDto == null) {
-			return ResponseEntity.notFound().build();
+			throw new RecursoNaoEncontradoException("Não existe usuario com o id " + id);
 		}
 		return ResponseEntity.ok(usuarioDto);
 	}
@@ -66,7 +70,7 @@ public class UsuarioController {
 		if(usuarioDto != null) {
 			return ResponseEntity.ok(usuarioDto);			
 		}
-		return ResponseEntity.notFound().build();
+		throw new RecursoNaoEncontradoException("Não existe usuario com o id " + id );
 	}
 	
 	@DeleteMapping("/{id}")
@@ -76,6 +80,6 @@ public class UsuarioController {
 		if(validate) {
 			return ResponseEntity.noContent().build();			
 		}
-		return ResponseEntity.notFound().build();
+		throw new RecursoNaoEncontradoException("Não existe usuario com o id " + id);
 	}
 }

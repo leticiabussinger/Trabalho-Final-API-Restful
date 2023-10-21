@@ -19,7 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.org.serratec.trabalhoApi.Dtos.PostDto;
 import br.org.serratec.trabalhoApi.Dtos.PostInserirDto;
-import br.org.serratec.trabalhoApi.model.Post;
+import br.org.serratec.trabalhoApi.exception.RecursoNaoEncontradoException;
 import br.org.serratec.trabalhoApi.service.PostService;
 
 @RestController
@@ -31,6 +31,9 @@ public class PostController {
 	
 	@GetMapping
 	public ResponseEntity<List<PostDto>> listar() {
+		if(postService.findAll().isEmpty()) {
+			throw new RecursoNaoEncontradoException("Não existem posts cadastrados no sistema");
+		}
 		return ResponseEntity.ok(postService.findAll());
 	}
 	
@@ -38,7 +41,7 @@ public class PostController {
 	public ResponseEntity<PostDto> buscar(@PathVariable Long id) {
 		PostDto post = postService.findById(id);
 		if (post == null) {
-			return ResponseEntity.notFound().build();
+			throw new RecursoNaoEncontradoException("Não existe post cadastrado com o id " + id);
 		}
 		return ResponseEntity.ok(post);
 	}
@@ -47,7 +50,7 @@ public class PostController {
 	public ResponseEntity<List<PostDto>> buscarPostsUser(@PathVariable Long id){
 		List<PostDto> posts = postService.buscarPostUser(id);
 		if (posts == null || posts.isEmpty()) {
-			return ResponseEntity.notFound().build();
+			throw new RecursoNaoEncontradoException("Não existem posts cadastrados para o usuario com o id " + id);
 		}
 		return ResponseEntity.ok(posts);
 	}
@@ -64,18 +67,18 @@ public class PostController {
 			
 			return ResponseEntity.created(uri).body(postInserido);	
 		}
-		return ResponseEntity.notFound().build();
+		throw new RecursoNaoEncontradoException("Não é possivel adicionar um post, pois o usuario com o id " + post.getUsuario().getId() + " não existe.");
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<PostDto> atualizar(@PathVariable Long id, @Valid @RequestBody Post post) {
+	public ResponseEntity<PostDto> atualizar(@PathVariable Long id, @Valid @RequestBody PostInserirDto postInserirDto) {
 	
-		PostDto postAtualizado = postService.atualizar(id, post);
+		PostDto postAtualizado = postService.atualizar(id, postInserirDto);
 		
 		if(postAtualizado != null) {
 			return ResponseEntity.ok(postAtualizado);			
 		}
-		return ResponseEntity.notFound().build();
+		throw new RecursoNaoEncontradoException("Não existe post com o id " + id);
 	}
 	
 	@DeleteMapping("/{id}")
@@ -85,7 +88,7 @@ public class PostController {
 		if(validate) {
 			return ResponseEntity.noContent().build();			
 		}
-		return ResponseEntity.notFound().build();
+		throw new RecursoNaoEncontradoException("Não existe post com o id " + id);
 	}
 
 }

@@ -1,6 +1,6 @@
 package br.org.serratec.trabalhoApi.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,7 +22,7 @@ public class Comentario {
 	private String texto;
 
 	@Column(nullable = false)
-	private LocalDate dataCriacao;
+	private LocalDateTime dataCriacao;
 
 	@ManyToOne
 	@JoinColumn(name = "id_post")
@@ -32,7 +32,7 @@ public class Comentario {
 
 	}
 
-	public Comentario(Long id, String texto, LocalDate dataCriacao, Post post) {
+	public Comentario(Long id, String texto, LocalDateTime dataCriacao, Post post) {
 		this.id = id;
 		this.texto = texto;
 		this.dataCriacao = dataCriacao;
@@ -55,11 +55,11 @@ public class Comentario {
 		this.texto = texto;
 	}
 
-	public LocalDate getDataCriacao() {
+	public LocalDateTime getDataCriacao() {
 		return dataCriacao;
 	}
 
-	public void setDataCriacao(LocalDate dataCriacao) {
+	public void setDataCriacao(LocalDateTime dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
 

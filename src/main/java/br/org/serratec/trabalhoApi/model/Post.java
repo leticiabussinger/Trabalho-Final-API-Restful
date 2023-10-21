@@ -1,6 +1,6 @@
 package br.org.serratec.trabalhoApi.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -25,7 +25,7 @@ public class Post {
 	private String conteudo;
 
 	@Column(nullable = false)
-	private LocalDate dataCriacao;
+	private LocalDateTime dataCriacao;
 
 	@ManyToOne
 	@JoinColumn(name = "id_usuario")
@@ -38,7 +38,7 @@ public class Post {
 
 	}
 
-	public Post(Long id, String conteudo, LocalDate dataCriacao, Usuario usuario) {
+	public Post(Long id, String conteudo, LocalDateTime dataCriacao, Usuario usuario) {
 		this.id = id;
 		this.conteudo = conteudo;
 		this.dataCriacao = dataCriacao;
@@ -61,11 +61,11 @@ public class Post {
 		this.conteudo = conteudo;
 	}
 
-	public LocalDate getDataCriacao() {
+	public LocalDateTime getDataCriacao() {
 		return dataCriacao;
 	}
 
-	public void setDataCriacao(LocalDate dataCriacao) {
+	public void setDataCriacao(LocalDateTime dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
 

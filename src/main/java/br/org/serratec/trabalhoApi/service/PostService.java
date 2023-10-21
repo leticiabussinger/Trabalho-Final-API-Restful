@@ -1,7 +1,6 @@
 package br.org.serratec.trabalhoApi.service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,12 +27,12 @@ public class PostService {
 	public List<PostDto> findAll() {
 		List<Post> posts = postRepository.findAll();
 		
-		List<PostDto> postDTO = new ArrayList<>();
+		List<PostDto> postsDTO = new ArrayList<>();
 		
 		for (Post post : posts) {
-			postDTO.add(new PostDto(post));
+			postsDTO.add(new PostDto(post));
 		}
-		return postDTO;
+		return postsDTO;
 	}
 
 	public PostDto findById(Long id) {
@@ -68,12 +67,11 @@ public class PostService {
 		if(user.isPresent()) {
 			Post postInserido = new Post();
 			
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-			LocalDate data = LocalDate.parse(postInserirDto.getDataCriacao(), formatter);
+			LocalDateTime dataAtual = LocalDateTime.now(); 
 			
 			
 			postInserido.setConteudo(postInserirDto.getConteudo());
-			postInserido.setDataCriacao(data);
+			postInserido.setDataCriacao(dataAtual);
 			postInserido.setUsuario(postInserirDto.getUsuario());
 			
 			postInserido = postRepository.save(postInserido);
@@ -94,10 +92,17 @@ public class PostService {
 		return false;
 	}
 
-	public PostDto atualizar(Long id, Post post) {
+	public PostDto atualizar(Long id, PostInserirDto postInserirDto) {
 		Optional<Post> postOpt = postRepository.findById(id);
+		
+		Post post = new Post();
+		
 		if (postOpt.isPresent()) {
 			post.setId(id);
+			post.setConteudo(postInserirDto.getConteudo());
+			post.setUsuario(postOpt.get().getUsuario());
+			post.setComentarios(postOpt.get().getComentarios());
+			post.setDataCriacao(postOpt.get().getDataCriacao());
 			post = postRepository.save(post);
 			
 			PostDto postDto = new PostDto(post);

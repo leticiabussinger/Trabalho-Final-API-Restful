@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.org.serratec.trabalhoApi.Dtos.UsuarioDto;
@@ -22,8 +23,8 @@ public class UsuarioService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
-//	@Autowired
-//	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	public List<UsuarioDto> findAll() {
 		List<Usuario> usuarios = usuarioRepository.findAll();
@@ -48,6 +49,7 @@ public class UsuarioService {
 	public UsuarioDto inserir(UsuarioInserirDto usuarioInserirDto) throws EmailException, SenhaException {
 		Usuario usuario = validateInserir(usuarioInserirDto);
 		usuario = usuarioRepository.save(usuario);
+
 
 		UsuarioDto usuarioDto = new UsuarioDto(usuario);
 		
@@ -94,8 +96,8 @@ public class UsuarioService {
 		usuario.setSobrenome(usuarioInserirDto.getSobrenome());
 		usuario.setEmail(usuarioInserirDto.getEmail());
 		usuario.setDataNascimento(data);
-		usuario.setSenha(usuarioInserirDto.getSenha());
-//		usuario.setSenha(bCryptPasswordEncoder.encode(usuarioInserirDto.getSenha()));
+//		usuario.setSenha(usuarioInserirDto.getSenha());
+		usuario.setSenha(bCryptPasswordEncoder.encode(usuarioInserirDto.getSenha()));
 		
 		return usuario;
 	}
