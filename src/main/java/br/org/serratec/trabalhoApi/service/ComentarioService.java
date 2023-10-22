@@ -63,6 +63,7 @@ public class ComentarioService {
 
 	public ComentarioDto inserir(ComentarioInserirDto comentarioInserirDto) {
 		
+		
 		Optional<Post> post = postRepository.findById(comentarioInserirDto.getPost().getId());
 
 		if(post.isPresent()) {

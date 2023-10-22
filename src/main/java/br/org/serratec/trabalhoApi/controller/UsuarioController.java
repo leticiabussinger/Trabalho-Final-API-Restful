@@ -21,6 +21,7 @@ import br.org.serratec.trabalhoApi.Dtos.UsuarioDto;
 import br.org.serratec.trabalhoApi.Dtos.UsuarioInserirDto;
 import br.org.serratec.trabalhoApi.exception.RecursoNaoEncontradoException;
 import br.org.serratec.trabalhoApi.service.UsuarioService;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -30,9 +31,8 @@ public class UsuarioController {
 	UsuarioService usuarioService;
 	
 	@GetMapping
+	@ApiOperation(value ="Listar todos os usuarios", notes = "Listagem de todos os usuarios cadastrados no sistema")
 	public ResponseEntity<List<UsuarioDto>> listar() {
-//		UserDetails detail = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		System.out.println(detail.getUsername());
 		if(usuarioService.findAll().isEmpty()) {
 			throw new RecursoNaoEncontradoException("Não existem usuarios cadastrados no sistema");
 		}
@@ -50,17 +50,17 @@ public class UsuarioController {
 	
 
 	@PostMapping
-	public ResponseEntity<UsuarioDto> inserir(@Valid @RequestBody UsuarioInserirDto usuarioInserirDTO) {
-		UsuarioDto usuarioDto = usuarioService.inserir(usuarioInserirDTO);
-		
-		URI uri = ServletUriComponentsBuilder
-				.fromCurrentRequest()
-				.path("/{id}")
-				.buildAndExpand(usuarioDto.getId())
-				.toUri();
-		
-		return ResponseEntity.created(uri).body(usuarioDto);
-	}
+    public ResponseEntity<UsuarioDto> inserir(@Valid @RequestBody UsuarioInserirDto usuarioInserirDTO) {
+        UsuarioDto usuarioDto = usuarioService.inserir(usuarioInserirDTO);
+
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(usuarioDto.getId())
+                .toUri();
+
+        return ResponseEntity.created(uri).body(usuarioDto);
+    }
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<UsuarioDto> atualizar(@PathVariable Long id, @Valid @RequestBody UsuarioInserirDto usuario) {

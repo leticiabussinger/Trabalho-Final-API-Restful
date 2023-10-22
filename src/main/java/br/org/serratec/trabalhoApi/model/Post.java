@@ -12,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+
+import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 public class Post {
@@ -19,6 +22,8 @@ public class Post {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_post")
+	@ApiModelProperty(example="1")
+	@NotNull(message = "O id não pode ser nulo")
 	private Long id;
 
 	@Column(nullable = false)

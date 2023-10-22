@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +35,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 		return super.handleExceptionInternal(ex, erroResposta, headers, status, request);
 	}
 
-	@ExceptionHandler({ EmailException.class, SenhaException.class })
+	@ExceptionHandler({ EmailException.class, SenhaException.class, FotoException.class, NullException.class })
 	protected ResponseEntity<?> handleEmailException(Exception ex) {
 		return ResponseEntity.unprocessableEntity().body(ex.getMessage());
 	}
@@ -42,4 +44,22 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<?> handleResourceNotFoundException(RecursoNaoEncontradoException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
+	
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	public ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex, WebRequest request) {
+	    String message = "Ocorreu um erro de integridade de dados.";
+
+	    if (ex.getCause() instanceof ConstraintViolationException) {
+	        ConstraintViolationException cause = (ConstraintViolationException) ex.getCause();
+
+	        if (cause.getSQLException() != null && cause.getSQLException().getSQLState().equals("23505")) {
+	            message = "Já existe um registro com esse valor.";
+	        } else if (cause.getSQLException() != null && cause.getSQLException().getSQLState().equals("23503")) {
+	            message = "Chave estrangeira não encontrada.";
+	        }
+	    }
+
+	    HttpStatus status = HttpStatus.BAD_REQUEST;
+	    return handleExceptionInternal(ex, message, new HttpHeaders(), status, request);
+	}
 }

@@ -15,6 +15,8 @@ public class UsuarioDto {
 	private String email;
 
 	private String dataNascimento;
+	
+	private String url;
 
 	public UsuarioDto() {
 
@@ -71,5 +73,15 @@ public class UsuarioDto {
 	public void setDataNascimento(String dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	
+	
 
 }
