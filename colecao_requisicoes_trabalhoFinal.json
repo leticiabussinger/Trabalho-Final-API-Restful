@@ -1,0 +1,722 @@
+{
+	"info": {
+		"_postman_id": "fa3f8004-51d1-4c22-a84b-a584968f1e06",
+		"name": "SpringBoot Serratec Trabalho Final",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30160097"
+	},
+	"item": [
+		{
+			"name": "TrabalhoFinal",
+			"item": [
+				{
+					"name": "Usuarios",
+					"item": [
+						{
+							"name": "listarTodosUsuario",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJFbWFpbDNAaG90bWFpbC5jb20iLCJleHAiOjE2OTc4NjE0NDB9.gqUv8kv5QdiM20jIaFra_taKpPDFXWBL-t-ymxO1ai6-DcrRJhA11tk1fMcWu97bGhKe5NozpOgweD4nxS0v1w",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/usuarios",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"usuarios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "listarPorIdUsuario",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/usuarios/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"usuarios",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "adicionarUsuario",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"NomeUsuario3\",\r\n    \"sobrenome\":\"SobrenomeUsuario3\",\r\n    \"email\": \"grupo6.trabalho.api13@gmail.com\",\r\n    \"dataNascimento\": \"02/02/2000\",\r\n    \"senha\": \"senha123\",\r\n    \"confirmaSenha\": \"senha123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/usuarios",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"usuarios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deletarUsuario",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/usuarios/4",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"usuarios",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "atualizarUsuario",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"nome\",\r\n    \"sobrenome\":\"sobrenome\",\r\n    \"email\": \"email@hotmail.com\",\r\n    \"dataNascimento\": \"02/02/2000\",\r\n    \"senha\": \"senha123\",\r\n    \"confirmaSenha\": \"ASDSAD\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/usuarios/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"usuarios",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "listarPorIdUsuarioCompleto",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/usuarios/1/completo",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"usuarios",
+										"1",
+										"completo"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Posts",
+					"item": [
+						{
+							"name": "listarTodosPost",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/posts",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"posts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "listarPorIdPost",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/posts/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"posts",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "adicionarPost",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"conteudo\": \"Conteudo do Post\",\r\n    \"usuario\": {\r\n        \"id\": 3\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/posts",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"posts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deletarPost",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/posts/13",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"posts",
+										"13"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "atualizarPost",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"conteudo\": \"Conteudo do Post 2 Atualizado\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/posts/2",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"posts",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ListarPostsPorUsuario",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/posts/usuario/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"posts",
+										"usuario",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "listarTodosPostPaginado",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/posts/paginado",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"posts",
+										"paginado"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Comentarios",
+					"item": [
+						{
+							"name": "listarTodosComentario",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/comentarios",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"comentarios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "listarPorIdComentario",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/comentarios/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"comentarios",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "adicionarComentario",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"texto\": \"Conteudo do Comentario\",\r\n    \"post\": {\r\n        \"id\": 1\r\n    },\r\n    \"usuario\": {\r\n        \"id\": 2\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/comentarios",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"comentarios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deletarComentario",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/comentarios/4",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"comentarios",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "atualizarComentario",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"texto\": \"Conteudo do Comentario Atualizado\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/comentarios/4",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"comentarios",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ListarComentariosPorPost",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/comentarios/post/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"comentarios",
+										"post",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Relacionamento",
+					"item": [
+						{
+							"name": "ListarRelacionamentoEspecifico",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/relacionamentos/seguido/1/seguidor/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"relacionamentos",
+										"seguido",
+										"1",
+										"seguidor",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "adicionarRelacionamento",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"usuarioSeguido\": {\r\n        \"id\": 3\r\n    },\r\n    \"usuarioSeguidor\": {\r\n        \"id\": 1\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/relacionamentos",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"relacionamentos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deletarRelacionamento",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/relacionamentos/seguido/3/seguidor/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"relacionamentos",
+										"seguido",
+										"3",
+										"seguidor",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ListarSeguidoresUsuario",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/relacionamentos/usuario/1/seguidores",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"relacionamentos",
+										"usuario",
+										"1",
+										"seguidores"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ListarSeguindoUsuario",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/relacionamentos/usuario/3/seguindo",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"relacionamentos",
+										"usuario",
+										"3",
+										"seguindo"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"item": [
+						{
+							"name": "Logar",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"Email3@hotmail.com\",\r\n    \"password\": \"senha123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/login",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Foto",
+					"item": [
+						{
+							"name": "buscarFotoUsuario",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/foto/usuario/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"foto",
+										"usuario",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "inserirFotoParaUsuario",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/Users/rhayl/Desktop/Usuario.jpg"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/foto/usuario/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"foto",
+										"usuario",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deletarFotoDeUsuario",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/foto/usuario/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"foto",
+										"usuario",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "atualizarFoto",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/Users/rhayl/Desktop/Usuario.jpg"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8080/foto/usuario/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"foto",
+										"usuario",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

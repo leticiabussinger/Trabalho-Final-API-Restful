@@ -3,6 +3,8 @@ package br.org.serratec.trabalhoApi.controller;
 import java.net.URI;
 import java.util.List;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.org.serratec.trabalhoApi.Dtos.UsuarioCompletoDto;
 import br.org.serratec.trabalhoApi.Dtos.UsuarioDto;
 import br.org.serratec.trabalhoApi.Dtos.UsuarioInserirDto;
+import br.org.serratec.trabalhoApi.exception.EmailException;
 import br.org.serratec.trabalhoApi.exception.RecursoNaoEncontradoException;
+import br.org.serratec.trabalhoApi.exception.SenhaException;
 import br.org.serratec.trabalhoApi.service.UsuarioService;
 import io.swagger.annotations.ApiOperation;
 
@@ -49,10 +54,20 @@ public class UsuarioController {
 		return ResponseEntity.ok(usuarioDto);
 	}
 	
+	@GetMapping("/{id}/completo")
+	@ApiOperation(value ="Listar um usuario completo por id", notes = "Listagem do usuario completo com um id especifico")
+	public ResponseEntity<UsuarioCompletoDto> buscarCompleto(@PathVariable Long id) {
+		UsuarioCompletoDto usuarioCompletoDto = usuarioService.findByIdCompleto(id);
+		if (usuarioCompletoDto == null) {
+			throw new RecursoNaoEncontradoException("Não existe usuario com o id " + id);
+		}
+		return ResponseEntity.ok(usuarioCompletoDto);
+	}
+	
 
 	@PostMapping
 	@ApiOperation(value ="Adicionar um usuario", notes = "Adiciona um usuario ao sistema")
-    public ResponseEntity<UsuarioDto> inserir(@Valid @RequestBody UsuarioInserirDto usuarioInserirDTO) {
+    public ResponseEntity<UsuarioDto> inserir(@Valid @RequestBody UsuarioInserirDto usuarioInserirDTO) throws AddressException, EmailException, SenhaException, MessagingException {
         UsuarioDto usuarioDto = usuarioService.inserir(usuarioInserirDTO);
 
         URI uri = ServletUriComponentsBuilder

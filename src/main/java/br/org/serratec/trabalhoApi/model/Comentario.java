@@ -10,6 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+
+
 @Entity
 public class Comentario {
 
@@ -30,6 +34,7 @@ public class Comentario {
 	
 	@ManyToOne
 	@JoinColumn(name = "id_usuario")
+	@JsonBackReference
 	private Usuario usuario;
 	
 	public Comentario() {
@@ -84,9 +89,7 @@ public class Comentario {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
-	}
-	
-	
+	}	
 	
 	
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import br.org.serratec.trabalhoApi.Dtos.RelacionamentoDto;
 import br.org.serratec.trabalhoApi.Dtos.RelacionamentoInserirDto;
+import br.org.serratec.trabalhoApi.exception.NullException;
 import br.org.serratec.trabalhoApi.exception.RecursoNaoEncontradoException;
 import br.org.serratec.trabalhoApi.model.Relacionamento;
 import br.org.serratec.trabalhoApi.model.Usuario;
@@ -66,6 +67,16 @@ public class RelacionamentoService {
 	}
 
 	public RelacionamentoDto inserir(RelacionamentoInserirDto relacionamentoInserirDto) {
+		
+		if(relacionamentoInserirDto.getUsuarioSeguido().getId() == null && relacionamentoInserirDto.getUsuarioSeguidor().getId() == null) {
+			throw new NullException("O id do usuarioSeguido e do usuarioSeguidor nao podem ser nulos");
+			
+		} else if(relacionamentoInserirDto.getUsuarioSeguido().getId() == null) {
+			throw new NullException("O id do usuarioSeguido nao pode ser nulo");
+			
+		} else if(relacionamentoInserirDto.getUsuarioSeguidor().getId() == null) {
+			throw new NullException("O id do usuarioSeguidor nao pode ser nulo");
+		}
 		
 		Optional<Usuario> userSeguido = usuarioRepository.findById(relacionamentoInserirDto.getUsuarioSeguido().getId());
 		Optional<Usuario> userSeguidor = usuarioRepository.findById(relacionamentoInserirDto.getUsuarioSeguidor().getId());

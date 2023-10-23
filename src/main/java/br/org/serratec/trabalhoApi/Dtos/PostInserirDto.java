@@ -1,7 +1,6 @@
 package br.org.serratec.trabalhoApi.Dtos;
 
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -16,7 +15,6 @@ public class PostInserirDto {
 	
 	@ApiModelProperty(dataType = "List", example = "{id}", notes = "O valor do id não pode ser nulo.")
 	@NotNull(message = "O usuario não pode ser vazio.")
-	@Valid
 	private Usuario usuario;
 
 	

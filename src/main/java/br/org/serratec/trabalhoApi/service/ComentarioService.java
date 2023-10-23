@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import br.org.serratec.trabalhoApi.Dtos.ComentarioAtualizarDto;
 import br.org.serratec.trabalhoApi.Dtos.ComentarioDto;
 import br.org.serratec.trabalhoApi.Dtos.ComentarioInserirDto;
+import br.org.serratec.trabalhoApi.exception.NullException;
 import br.org.serratec.trabalhoApi.exception.RecursoNaoEncontradoException;
 import br.org.serratec.trabalhoApi.model.Comentario;
 import br.org.serratec.trabalhoApi.model.Post;
@@ -78,6 +79,15 @@ public class ComentarioService {
 
 	public ComentarioDto inserir(ComentarioInserirDto comentarioInserirDto) {
 		
+		if(comentarioInserirDto.getUsuario().getId() == null && comentarioInserirDto.getPost().getId() == null) {
+			throw new NullException("O id do usuario e do post nao podem ser nulos");
+			
+		} else if(comentarioInserirDto.getUsuario().getId() == null) {
+			throw new NullException("O id do usuario nao pode ser nulo");
+			
+		} else if(comentarioInserirDto.getPost().getId() == null) {
+			throw new NullException("O id do post nao pode ser nulo");
+		}
 		
 		Optional<Post> postOpt = postRepository.findById(comentarioInserirDto.getPost().getId());
 		Optional<Usuario> usuarioOpt = usuarioRepository.findById(comentarioInserirDto.getUsuario().getId());

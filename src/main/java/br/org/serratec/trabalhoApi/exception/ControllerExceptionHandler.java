@@ -9,7 +9,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -34,6 +36,31 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return super.handleExceptionInternal(ex, erroResposta, headers, status, request);
 	}
+	
+	@Override
+    protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+      List<String> erros = new ArrayList<>();
+
+      erros.add(ex.getMethod());
+      
+      ErroResposta erroResposta = new ErroResposta(status.value(),
+        "Método HTTP não permitido pelo servidor: ", LocalDateTime.now(), erros);
+
+      return super.handleExceptionInternal(ex, erroResposta, headers, status, request);
+    }
+	
+	@Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+            HttpHeaders headers, HttpStatus status, WebRequest request) {
+        List<String> erros = new ArrayList<>();
+        String message = "Não foi possivel converter o JSON enviado";
+        erros.add(message);
+
+        ErroResposta erroResposta = new ErroResposta(status.value(), "Erro de sintaxe ou formato inválido",
+                LocalDateTime.now(), erros);
+
+        return handleExceptionInternal(ex, erroResposta, headers, status, request);
+    }
 
 	@ExceptionHandler({ EmailException.class, SenhaException.class, FotoException.class, NullException.class })
 	protected ResponseEntity<?> handleEmailException(Exception ex) {

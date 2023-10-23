@@ -29,7 +29,7 @@ public class SwaggerConfig {
 				.title("API De Rede Social Simples")
 				.description("Esse é uma API desenvolvida para simular uma rede social simples")
 				.version("1.0.0")
-				.contact(new Contact("Serratec", "www.serratec.org.br", "grupo6@gmail.com"))
+				.contact(new Contact("Grupo 6", "www.grupo6.com.br", "grupo6@gmail.com"))
 				.build();
 		return apiInfo;
 	}

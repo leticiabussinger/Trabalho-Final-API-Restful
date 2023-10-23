@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +16,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.org.serratec.trabalhoApi.Dtos.UsuarioCompletoDto;
 import br.org.serratec.trabalhoApi.Dtos.UsuarioDto;
 import br.org.serratec.trabalhoApi.Dtos.UsuarioInserirDto;
+import br.org.serratec.trabalhoApi.config.MailConfig;
 import br.org.serratec.trabalhoApi.exception.EmailException;
 import br.org.serratec.trabalhoApi.exception.SenhaException;
 import br.org.serratec.trabalhoApi.model.Foto;
@@ -37,6 +41,9 @@ public class UsuarioService {
 	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	@Autowired
+	private MailConfig mailConfig;
 
 	@Transactional
 	public List<UsuarioDto> findAll() {
@@ -48,6 +55,7 @@ public class UsuarioService {
 		
 		return usuariosDto;
 	}
+	
 
 	public UsuarioDto findById(Long id) {
 		Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
@@ -57,13 +65,26 @@ public class UsuarioService {
 		
 		return adicionaImagemURI(usuarioOpt.get());
 	}
+	
+	public UsuarioCompletoDto findByIdCompleto(Long id) {
+		
+		Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
+		if (usuarioOpt.isEmpty()) {
+			return null;
+		}
+		
+		return adicionaImagemURICompleto(usuarioOpt.get());
+	}
 
-	public UsuarioDto inserir(UsuarioInserirDto usuarioInserirDto) throws EmailException, SenhaException {
+	@Transactional
+	public UsuarioDto inserir(UsuarioInserirDto usuarioInserirDto) throws EmailException, SenhaException, AddressException, MessagingException {
         Usuario usuario = validateInserir(usuarioInserirDto);
         usuario = usuarioRepository.save(usuario);
 
 
         UsuarioDto usuarioDto = new UsuarioDto(usuario);
+        
+        mailConfig.sendEmail(usuario.getEmail(), "Olá " + usuarioInserirDto.getNome() + ", sua conta foi cadastrada com sucesso!");
 
         return usuarioDto;
     }
@@ -130,6 +151,25 @@ public class UsuarioService {
 		}
 		
 		return usuarioDto;	
+	}
+	
+	public UsuarioCompletoDto adicionaImagemURICompleto(Usuario usuario) {
+		URI uri = ServletUriComponentsBuilder.
+				fromCurrentContextPath()
+				.path("/foto/usuario/{id}")
+				.buildAndExpand(usuario.getId())
+				.toUri();
+		
+		UsuarioCompletoDto usuarioCompletoDto = new UsuarioCompletoDto(usuario);
+		Optional<Foto> fotoOpt = fotoRepository.findByUsuario(usuario);
+		
+		if(fotoOpt.isPresent()) {
+			usuarioCompletoDto.setUrl(uri.toString());				
+		} else {
+			usuarioCompletoDto.setUrl("Foto não adicionada");
+		}
+		
+		return usuarioCompletoDto;	
 	}
 	
 }

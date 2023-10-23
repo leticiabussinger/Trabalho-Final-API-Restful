@@ -6,6 +6,10 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +42,15 @@ public class PostController {
 			throw new RecursoNaoEncontradoException("Não existem posts cadastrados no sistema");
 		}
 		return ResponseEntity.ok(postService.findAll());
+	}
+	
+	@GetMapping("/paginado")
+	@ApiOperation(value ="Listar todos os posts", notes = "Listagem de todos os posts cadastrados no sistema de forma paginada")
+	public ResponseEntity<Page<PostDto>> listarPaginado(@PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable) {
+		if(postService.findAll().isEmpty()) {
+			throw new RecursoNaoEncontradoException("Não existem posts cadastrados no sistema");
+		}
+		return ResponseEntity.ok(postService.findAll(pageable));
 	}
 	
 	@GetMapping("/{id}")

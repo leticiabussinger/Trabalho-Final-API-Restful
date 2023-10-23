@@ -6,11 +6,15 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.org.serratec.trabalhoApi.Dtos.PostAtualizarDto;
 import br.org.serratec.trabalhoApi.Dtos.PostDto;
 import br.org.serratec.trabalhoApi.Dtos.PostInserirDto;
+import br.org.serratec.trabalhoApi.exception.NullException;
 import br.org.serratec.trabalhoApi.model.Post;
 import br.org.serratec.trabalhoApi.model.Usuario;
 import br.org.serratec.trabalhoApi.repository.PostRepository;
@@ -34,6 +38,11 @@ public class PostService {
 			postsDTO.add(new PostDto(post));
 		}
 		return postsDTO;
+	}
+	
+	public Page<PostDto> findAll(Pageable pageable) {
+		
+		return postRepository.findAll(pageable).map((post) -> new PostDto(post));
 	}
 
 	public PostDto findById(Long id) {
@@ -62,6 +71,10 @@ public class PostService {
 	}
 
 	public PostDto inserir(PostInserirDto postInserirDto) {
+		
+		if(postInserirDto.getUsuario().getId() == null) {
+			throw new NullException("O id do usuario nao pode ser nulo");
+		}
 		
 		Optional<Usuario> user = usuarioRepository.findById(postInserirDto.getUsuario().getId());
 		
