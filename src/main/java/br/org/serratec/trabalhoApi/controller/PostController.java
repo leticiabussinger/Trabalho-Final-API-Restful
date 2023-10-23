@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.org.serratec.trabalhoApi.Dtos.PostAtualizarDto;
 import br.org.serratec.trabalhoApi.Dtos.PostDto;
 import br.org.serratec.trabalhoApi.Dtos.PostInserirDto;
 import br.org.serratec.trabalhoApi.exception.RecursoNaoEncontradoException;
 import br.org.serratec.trabalhoApi.service.PostService;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/posts")
@@ -30,6 +32,7 @@ public class PostController {
 	PostService postService;
 	
 	@GetMapping
+	@ApiOperation(value ="Listar todos os posts", notes = "Listagem de todos os posts cadastrados no sistema")
 	public ResponseEntity<List<PostDto>> listar() {
 		if(postService.findAll().isEmpty()) {
 			throw new RecursoNaoEncontradoException("Não existem posts cadastrados no sistema");
@@ -38,6 +41,7 @@ public class PostController {
 	}
 	
 	@GetMapping("/{id}")
+	@ApiOperation(value ="Listar um post por id", notes = "Listagem do post com um id especifico")
 	public ResponseEntity<PostDto> buscar(@PathVariable Long id) {
 		PostDto post = postService.findById(id);
 		if (post == null) {
@@ -47,6 +51,7 @@ public class PostController {
 	}
 	
 	@GetMapping("/usuario/{id}")
+	@ApiOperation(value ="Listar os posts por id do usuario", notes = "Listagem de posts com um id de um usuario especifico")
 	public ResponseEntity<List<PostDto>> buscarPostsUser(@PathVariable Long id){
 		List<PostDto> posts = postService.buscarPostUser(id);
 		if (posts == null || posts.isEmpty()) {
@@ -56,6 +61,7 @@ public class PostController {
 	}
 	
 	@PostMapping
+	@ApiOperation(value ="Adicionar um post", notes = "Adiciona um post a um usuario especifico no sistema")
 	public ResponseEntity<PostDto> inserir(@Valid @RequestBody PostInserirDto post) {
 		PostDto postInserido = postService.inserir(post);
 		if(postInserido != null) {
@@ -71,9 +77,10 @@ public class PostController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<PostDto> atualizar(@PathVariable Long id, @Valid @RequestBody PostInserirDto postInserirDto) {
+	@ApiOperation(value ="Atualizar um post por id", notes = "Atualiza o conteudo de um post exitente no sistema")
+	public ResponseEntity<PostDto> atualizar(@PathVariable Long id, @Valid @RequestBody PostAtualizarDto postAtualizarDto) {
 	
-		PostDto postAtualizado = postService.atualizar(id, postInserirDto);
+		PostDto postAtualizado = postService.atualizar(id, postAtualizarDto);
 		
 		if(postAtualizado != null) {
 			return ResponseEntity.ok(postAtualizado);			
@@ -82,6 +89,7 @@ public class PostController {
 	}
 	
 	@DeleteMapping("/{id}")
+	@ApiOperation(value ="Deletar um post por id", notes = "Deleta um post existente de um usuario no sistema")
 	public ResponseEntity<Void> remover(@PathVariable Long id) {
 		
 		Boolean validate = postService.deletar(id);

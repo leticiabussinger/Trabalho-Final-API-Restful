@@ -25,18 +25,6 @@ public class RelacionamentoService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
-	public List<RelacionamentoDto> findAll() {
-		List<Relacionamento> relacionamentos = relacionamentoRepository.findAll();
-		
-		List<RelacionamentoDto> relacionamentosDTO = new ArrayList<>();
-		
-		for (Relacionamento relacionamento : relacionamentos) {
-			relacionamentosDTO.add(new RelacionamentoDto(relacionamento));
-		}
-		
-		return relacionamentosDTO;
-		
-	}
 
 	public RelacionamentoDto findById(Long idSeguido, Long idSeguidor) {
 		

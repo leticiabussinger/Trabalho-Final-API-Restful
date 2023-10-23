@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.org.serratec.trabalhoApi.Dtos.PostAtualizarDto;
 import br.org.serratec.trabalhoApi.Dtos.PostDto;
 import br.org.serratec.trabalhoApi.Dtos.PostInserirDto;
 import br.org.serratec.trabalhoApi.model.Post;
@@ -92,14 +93,14 @@ public class PostService {
 		return false;
 	}
 
-	public PostDto atualizar(Long id, PostInserirDto postInserirDto) {
+	public PostDto atualizar(Long id, PostAtualizarDto postAtualizarDto) {
 		Optional<Post> postOpt = postRepository.findById(id);
 		
 		Post post = new Post();
 		
 		if (postOpt.isPresent()) {
 			post.setId(id);
-			post.setConteudo(postInserirDto.getConteudo());
+			post.setConteudo(postAtualizarDto.getConteudo());
 			post.setUsuario(postOpt.get().getUsuario());
 			post.setComentarios(postOpt.get().getComentarios());
 			post.setDataCriacao(postOpt.get().getDataCriacao());

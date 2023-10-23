@@ -11,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class Usuario {
@@ -19,7 +18,6 @@ public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_usuario")
-	@NotNull(message = "O id não pode ser nulo")
 	private Long id;
 
 	@Column(length = 60, nullable = false)
@@ -39,6 +37,9 @@ public class Usuario {
 	
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private List<Post> posts;
+	
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+	private List<Comentario> comentarios;
 
 	public Usuario() {
 

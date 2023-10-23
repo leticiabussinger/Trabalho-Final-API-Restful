@@ -106,7 +106,7 @@ public class UsuarioService {
 		Usuario usuario = new Usuario();
 		usuario.setNome(usuarioInserirDto.getNome());
 		usuario.setSobrenome(usuarioInserirDto.getSobrenome());
-		usuario.setEmail(usuarioInserirDto.getEmail());
+		usuario.setEmail(usuarioInserirDto.getEmail().toLowerCase());
 		usuario.setDataNascimento(data);
 		usuario.setSenha(bCryptPasswordEncoder.encode(usuarioInserirDto.getSenha()));
 		

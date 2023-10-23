@@ -21,6 +21,7 @@ import br.org.serratec.trabalhoApi.security.JwtAuthenticationFilter;
 import br.org.serratec.trabalhoApi.security.JwtAuthorizationFilter;
 import br.org.serratec.trabalhoApi.security.JwtUtil;
 
+@SuppressWarnings("deprecation")
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
@@ -40,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests()
 		.antMatchers(HttpMethod.POST, "/usuarios").permitAll()
-		.anyRequest().permitAll()
+		.anyRequest().authenticated()
 		.and()
 		.httpBasic()
 		.and()

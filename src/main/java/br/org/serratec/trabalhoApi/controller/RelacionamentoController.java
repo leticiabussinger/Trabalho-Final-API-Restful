@@ -21,6 +21,7 @@ import br.org.serratec.trabalhoApi.Dtos.RelacionamentoDto;
 import br.org.serratec.trabalhoApi.Dtos.RelacionamentoInserirDto;
 import br.org.serratec.trabalhoApi.exception.RecursoNaoEncontradoException;
 import br.org.serratec.trabalhoApi.service.RelacionamentoService;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/relacionamentos")
@@ -29,15 +30,8 @@ public class RelacionamentoController {
 	@Autowired
 	RelacionamentoService relacionamentoService;
 
-	@GetMapping
-	public ResponseEntity<List<RelacionamentoDto>> listar() {
-		if (relacionamentoService.findAll().isEmpty()) {
-			throw new RecursoNaoEncontradoException("Não existem relacionamentos cadastrados no sistema");
-		}
-		return ResponseEntity.ok(relacionamentoService.findAll());
-	}
-
 	@GetMapping("/seguido/{idSeguido}/seguidor/{idSeguidor}")
+	@ApiOperation(value ="Listar um relacionamento especifico pelo idSeguido e idSeguidor", notes = "Listagem de um relacionamento especifico entre dois usuarios, com id de quem é seguido e com id de seu seguidor")
 	public ResponseEntity<RelacionamentoDto> buscar(@PathVariable Long idSeguido, @PathVariable Long idSeguidor) {
 
 		RelacionamentoDto relacionamento = relacionamentoService.findById(idSeguido, idSeguidor);
@@ -49,6 +43,7 @@ public class RelacionamentoController {
 	}
 
 	@GetMapping("/usuario/{id}/seguidores")
+	@ApiOperation(value ="Listar os seguidores de um usuario por id", notes = "Listagem dos seguidores de um usuario com um id especifico")
 	public ResponseEntity<List<RelacionamentoDto>> buscarSeguidoresUser(@PathVariable Long id) {
 		List<RelacionamentoDto> relacionamentos = relacionamentoService.buscarSeguidoresUser(id);
 		if (relacionamentos == null || relacionamentos.isEmpty()) {
@@ -58,6 +53,7 @@ public class RelacionamentoController {
 	}
 
 	@GetMapping("/usuario/{id}/seguindo")
+	@ApiOperation(value ="Listar quem um usuario segue por id", notes = "Listagem de quem um usuario com um id especifico segue")
 	public ResponseEntity<List<RelacionamentoDto>> buscarSeguindoUser(@PathVariable Long id) {
 		List<RelacionamentoDto> relacionamentos = relacionamentoService.buscarSeguindoUser(id);
 		if (relacionamentos == null || relacionamentos.isEmpty()) {
@@ -67,6 +63,7 @@ public class RelacionamentoController {
 	}
 
 	@PostMapping
+	@ApiOperation(value ="Adicionar a um relacionamento entre dois usuarios", notes = "Adiciona um relacionamento entre dois usuarios cadastrados no sistema a partir seus ids")
 	public ResponseEntity<RelacionamentoDto> inserir(
 			@Valid @RequestBody RelacionamentoInserirDto relacionamentoInserir) {
 		RelacionamentoDto relacionamentoInserido = relacionamentoService.inserir(relacionamentoInserir);
@@ -83,6 +80,7 @@ public class RelacionamentoController {
 
 	@Transactional
 	@DeleteMapping("/seguido/{idSeguido}/seguidor/{idSeguidor}")
+	@ApiOperation(value ="Deletar um relacionamento especifico pelo idSeguido e idSeguidor", notes = "Deleta um relacionamento especifico entre dois usuarios, com id de quem é seguido e com id de seu seguidor")
 	public ResponseEntity<Void> remover(@PathVariable Long idSeguido, @PathVariable Long idSeguidor) {
 
 		Boolean validate = relacionamentoService.deletar(idSeguido, idSeguidor);

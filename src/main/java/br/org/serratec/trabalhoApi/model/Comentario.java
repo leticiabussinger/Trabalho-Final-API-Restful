@@ -28,16 +28,23 @@ public class Comentario {
 	@JoinColumn(name = "id_post")
 	private Post post;
 	
+	@ManyToOne
+	@JoinColumn(name = "id_usuario")
+	private Usuario usuario;
+	
 	public Comentario() {
 
 	}
 
-	public Comentario(Long id, String texto, LocalDateTime dataCriacao, Post post) {
+	
+	public Comentario(Long id, String texto, LocalDateTime dataCriacao, Post post, Usuario usuario) {
 		this.id = id;
 		this.texto = texto;
 		this.dataCriacao = dataCriacao;
 		this.post = post;
+		this.usuario = usuario;
 	}
+
 
 	public Long getId() {
 		return id;
@@ -70,6 +77,16 @@ public class Comentario {
 	public void setPost(Post post) {
 		this.post = post;
 	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+	
+	
 	
 	
 }

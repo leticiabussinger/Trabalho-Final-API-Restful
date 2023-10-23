@@ -40,6 +40,7 @@ public class UsuarioController {
 	}
 	
 	@GetMapping("/{id}")
+	@ApiOperation(value ="Listar um usuario por id", notes = "Listagem do usuario com um id especifico")
 	public ResponseEntity<UsuarioDto> buscar(@PathVariable Long id) {
 		UsuarioDto usuarioDto = usuarioService.findById(id);
 		if (usuarioDto == null) {
@@ -50,6 +51,7 @@ public class UsuarioController {
 	
 
 	@PostMapping
+	@ApiOperation(value ="Adicionar um usuario", notes = "Adiciona um usuario ao sistema")
     public ResponseEntity<UsuarioDto> inserir(@Valid @RequestBody UsuarioInserirDto usuarioInserirDTO) {
         UsuarioDto usuarioDto = usuarioService.inserir(usuarioInserirDTO);
 
@@ -63,6 +65,7 @@ public class UsuarioController {
     }
 	
 	@PutMapping("/{id}")
+	@ApiOperation(value ="Atualizar um usuario por id", notes = "Atualiza as informações de um usuario exitente no sistema")
 	public ResponseEntity<UsuarioDto> atualizar(@PathVariable Long id, @Valid @RequestBody UsuarioInserirDto usuario) {
 	
 		UsuarioDto usuarioDto = usuarioService.atualizar(id, usuario);
@@ -74,6 +77,7 @@ public class UsuarioController {
 	}
 	
 	@DeleteMapping("/{id}")
+	@ApiOperation(value ="Deletar um usuario por id", notes = "Deleta um usuario existente no sistema")
 	public ResponseEntity<Void> remover(@PathVariable Long id) {
 		
 		Boolean validate = usuarioService.deletar(id);

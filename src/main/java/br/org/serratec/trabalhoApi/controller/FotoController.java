@@ -21,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.org.serratec.trabalhoApi.exception.RecursoNaoEncontradoException;
 import br.org.serratec.trabalhoApi.model.Foto;
 import br.org.serratec.trabalhoApi.service.FotoService;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/foto")
@@ -30,6 +31,7 @@ public class FotoController {
 	FotoService fotoService;
 	
 	@GetMapping("/usuario/{id}")
+	@ApiOperation(value ="Listar a foto por id do usuario", notes = "Listagem da foto com um id de um usuario especifico")
 	public ResponseEntity<byte[]> buscarFotoUser(@PathVariable Long id){
 		Foto foto = fotoService.buscarPorIdUsuario(id);
 		
@@ -43,6 +45,7 @@ public class FotoController {
 	}
 	
 	@PostMapping("usuario/{id}")
+	@ApiOperation(value ="Adicionar a foto por id do usuario", notes = "Adiciona uma foto para um usuario com um id especifico")
 	public ResponseEntity<byte[]> inserir(@PathVariable Long id, @RequestPart MultipartFile file) throws IOException {		
 		Foto fotoInserida = fotoService.inserir(id, file);
 		if(fotoInserida != null) {
@@ -60,17 +63,8 @@ public class FotoController {
 		throw new RecursoNaoEncontradoException("Não é possivel adicionar a foto, pois o usuario com o id " + id + " não existe.");
 	}
 	
-	@DeleteMapping("usuario/{id}")
-	public ResponseEntity<Void> remover(@PathVariable Long id) {
-		
-		Boolean validate = fotoService.deletar(id);
-		if(validate) {
-			return ResponseEntity.noContent().build();			
-		}
-		throw new RecursoNaoEncontradoException("Não existe uma foto cadastrada para o usuario com id " + id);
-	}
-	
 	@PutMapping("usuario/{id}")
+	@ApiOperation(value ="Atualizar a foto por id do usuario", notes = "Atualiza a foto de um usuario com um id especifico")
 	public ResponseEntity<byte[]> atualizar(@PathVariable Long id, @RequestPart MultipartFile file) throws IOException {		
 		Foto fotoAtualizada = fotoService.atualizar(id, file);
 		if(fotoAtualizada != null) {
@@ -87,5 +81,17 @@ public class FotoController {
 		}
 		throw new RecursoNaoEncontradoException("Não é possivel atualizar a foto, pois o usuario com o id " + id + " não existe.");
 	}
+	
+	@DeleteMapping("usuario/{id}")
+	@ApiOperation(value ="Deletar a foto por id do usuario", notes = "Deleta a foto de um usuario com um id especifico")
+	public ResponseEntity<Void> remover(@PathVariable Long id) {
+		
+		Boolean validate = fotoService.deletar(id);
+		if(validate) {
+			return ResponseEntity.noContent().build();			
+		}
+		throw new RecursoNaoEncontradoException("Não existe uma foto cadastrada para o usuario com id " + id);
+	}
+	
 	
 }

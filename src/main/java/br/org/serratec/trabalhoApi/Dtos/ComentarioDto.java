@@ -14,6 +14,8 @@ public class ComentarioDto {
 
 	private Long post_id;
 	
+	private Long usuario_id;
+	
 	public ComentarioDto() {
 
 	}
@@ -26,6 +28,7 @@ public class ComentarioDto {
 		String dataFormatada = comentario.getDataCriacao().format(formatter);  
 		this.dataCriacao = dataFormatada;
 		this.post_id = comentario.getPost().getId();
+		this.usuario_id = comentario.getUsuario().getId();
 	}
 
 
@@ -60,6 +63,15 @@ public class ComentarioDto {
 	public void setPost_id(Long post_id) {
 		this.post_id = post_id;
 	}
-	
-	
+
+
+	public Long getUsuario_id() {
+		return usuario_id;
+	}
+
+
+	public void setUsuario_id(Long usuario_id) {
+		this.usuario_id = usuario_id;
+	}
+		
 }

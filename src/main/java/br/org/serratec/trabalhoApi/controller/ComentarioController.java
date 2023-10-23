@@ -17,11 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.org.serratec.trabalhoApi.Dtos.ComentarioAtualizarDto;
 import br.org.serratec.trabalhoApi.Dtos.ComentarioDto;
 import br.org.serratec.trabalhoApi.Dtos.ComentarioInserirDto;
 import br.org.serratec.trabalhoApi.exception.RecursoNaoEncontradoException;
-import br.org.serratec.trabalhoApi.model.Comentario;
 import br.org.serratec.trabalhoApi.service.ComentarioService;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/comentarios")
@@ -31,14 +32,19 @@ public class ComentarioController {
 	ComentarioService comentarioService;
 
 	@GetMapping
+	@ApiOperation(value ="Listar todos os comentarios", notes = "Listagem de todos os comentarios cadastrados no sistema")
 	public ResponseEntity<List<ComentarioDto>> listar() {
-		if(comentarioService.findAll().isEmpty()) {
+		
+		List<ComentarioDto> comentarios = comentarioService.findAll();
+		
+		if(comentarios == null) {
 			throw new RecursoNaoEncontradoException("Não existem comentarios cadastrados no sistema");
 		}
-		return ResponseEntity.ok(comentarioService.findAll());
+		return ResponseEntity.ok(comentarios);
 	}
 
 	@GetMapping("/{id}")
+	@ApiOperation(value ="Listar um comentario por id", notes = "Listagem do comentario com um id especifico")
 	public ResponseEntity<ComentarioDto> buscar(@PathVariable Long id) {
 		ComentarioDto comentario = comentarioService.findById(id);
 		if (comentario == null) {
@@ -48,6 +54,7 @@ public class ComentarioController {
 	}
 
 	@GetMapping("/post/{id}")
+	@ApiOperation(value ="Listar os comentarios por id do post", notes = "Listagem de comentarios com um id de um post especifico")
 	public ResponseEntity<List<ComentarioDto>> buscarComentariosPost(@PathVariable Long id) {
 		List<ComentarioDto> comentarios = comentarioService.buscarComentarioPost(id);
 		if (comentarios == null || comentarios.isEmpty()) {
@@ -57,6 +64,7 @@ public class ComentarioController {
 	}
 
 	@PostMapping
+	@ApiOperation(value ="Adicionar um comentario", notes = "Adiciona um comentario a um post especifico no sistema se o usuario que comentou está seguindo o criador do post")
 	public ResponseEntity<ComentarioDto> inserir(@Valid @RequestBody ComentarioInserirDto comentario) {
 		ComentarioDto comentarioInserido = comentarioService.inserir(comentario);
 		
@@ -74,9 +82,10 @@ public class ComentarioController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<ComentarioDto> atualizar(@PathVariable Long id, @Valid @RequestBody Comentario comentario) {
+	@ApiOperation(value ="Atualizar um comentario por id", notes = "Atualiza o conteudo de um comentario exitente no sistema")
+	public ResponseEntity<ComentarioDto> atualizar(@PathVariable Long id, @Valid @RequestBody ComentarioAtualizarDto comentarioAtualizarDto) {
 
-		ComentarioDto comentarioAtualizado = comentarioService.atualizar(id, comentario);
+		ComentarioDto comentarioAtualizado = comentarioService.atualizar(id, comentarioAtualizarDto);
 
 		if (comentarioAtualizado != null) {
 			return ResponseEntity.ok(comentarioAtualizado);
@@ -85,6 +94,7 @@ public class ComentarioController {
 	}
 
 	@DeleteMapping("/{id}")
+	@ApiOperation(value ="Deletar um comentario por id", notes = "Deleta um comentario existente em um post no sistema")
 	public ResponseEntity<Void> remover(@PathVariable Long id) {
 
 		Boolean validate = comentarioService.deletar(id);
